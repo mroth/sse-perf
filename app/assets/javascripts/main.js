@@ -26,6 +26,7 @@ require(["barchart"], function (chart) {
     $("#MBtotal").html(numberWithCommas((d.bytesReceivedTotal / 1024 / 1024).toFixed(0)));
     $("#MsgTotal").html(numberWithCommas(d.chunksTotal));
     $("#MsgS").html(numberWithCommas(d.msgSec.toFixed(0)));
+    $("#MsgCpS").html(numberWithCommas(d.msgCpS));
   }
 
   function addMetric(item) {
@@ -40,7 +41,8 @@ require(["barchart"], function (chart) {
     item.clients = +item.clients;
     item.kbSec = (item.bytesReceived / 1024 / item.msSinceLastReset * 1000).toFixed(1);
     item.msgSec = item.chunks / item.msSinceLastReset * 1000;
-    updateUI(item);    
+    item.msgCpS = item.msgSec.toFixed(0) / item.activeClients;
+    updateUI(item);
     if (item.chunks > 0) {
       me.metrics.push(item);
       if (me.metrics.length > 30) {
@@ -49,7 +51,8 @@ require(["barchart"], function (chart) {
       me.clientsChart.reDraw();
       me.msgChart.reDraw();
       me.mbSecChart.reDraw();
-    }    
+      me.msgCpSChart.reDraw();
+    }
   }
 
   function handler(msg) {
@@ -159,4 +162,15 @@ require(["barchart"], function (chart) {
   }
 
   me.mbSecChart = chart.BarChart(me.metrics, mbSecValue, mbSecLabel, "#mbSecChartSvg", "rgb(242, 154, 46)", "black", "black", 960, 140);
+
+  function msgCpSValue(d) {
+    return d.msgCpS.toFixed(0);
+  }
+
+  function msgCpSLabel(d) {
+    return d.msgCpS.toFixed(1);
+  }
+
+  me.msgCpSChart = chart.BarChart(me.metrics, msgCpSValue, msgCpSLabel, "#msgCpSChartSvg", "rgb(242, 154, 46)", "black", "black", 960, 140);
+
 });

@@ -24,6 +24,7 @@
         MB total: <span class="metricVal" id="MBtotal"></span><br />
         Msg total: <span class="metricVal" id="MsgTotal">0</span><br />
         Msg/s: <span class="metricVal" id="MsgS">0</span><br />
+        Msg/client/s: <span class="metricVal" id="MsgCpS">0</span><br />
     </div>
 
     <div id="heartbeat"></div>
@@ -32,7 +33,12 @@
         <h2>Messages per Second:</h2>
         <div id="msgChartSvg"></div>
     </div>
-    
+
+    <div id="msgCpSChart" class="barchart">
+        <h2>Messages per Client per Second (average):</h2>
+        <div id="msgCpSChartSvg"></div>
+    </div>
+
     <div id="clientsChart" class="barchart">
         <h2>Active Clients:</h2>
 
